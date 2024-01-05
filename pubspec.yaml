@@ -19,6 +19,11 @@ dependencies:
   timezone:
   firebase_core:
   firebase_messaging: ^14.7.10
+  flutter_timezone:
+  path_provider:
+  device_info_plus: ^9.1.1 
+  http: ^1.1.2
+  image: ^4.1.3
 
 
 dev_dependencies:

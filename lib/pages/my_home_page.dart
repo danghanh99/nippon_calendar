@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nholiday_jp/nholiday_jp.dart';
 import 'package:nippon_calendar/services/notification_service.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:intl/intl.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -15,13 +14,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<Meeting> meetings = [];
-  CalendarController _calendarController = CalendarController();
+  final CalendarController _calendarController = CalendarController();
   final NotificationService _notificationService = NotificationService();
 
   @override
   void initState() {
     meetings = _getDataSource();
-    // _initNotifications();
     super.initState();
   }
 
@@ -31,7 +29,13 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: InkWell(
             onTap: () {
-              _scheduleDailyNotification();
+              _notificationService.scheduleNotification(
+                "title",
+                "body",
+                13,
+                55,
+                DateTime.now(),
+              );
             },
             child: const Text("Calendar"),
           ),
@@ -48,26 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
             appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
             showAgenda: true,
           ),
-          // viewHeaderStyle: ViewHeaderStyle(
-          //   backgroundColor: Colors
-          //       .blue.shade300, // Set background color for the entire header
-          //   dayTextStyle: TextStyle(color: Colors.white),
-          //   dateTextStyle: TextStyle(color: Colors.white),
-          // ),
         )));
-  }
-
-  Future<void> _initNotifications() async {
-    await _notificationService.init();
-  }
-
-  void _scheduleDailyNotification() {
-    _notificationService.scheduleDailyNotification(
-      'Daily Notification',
-      'This is a scheduled daily notification.',
-      10,
-      0,
-    );
   }
 
   List<Meeting> _getDataSource() {
