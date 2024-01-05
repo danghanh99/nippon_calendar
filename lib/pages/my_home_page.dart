@@ -58,8 +58,53 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Meeting> _getDataSource() {
     List<Meeting> tmpArr = <Meeting>[];
     for (int year = 2000; year <= 2050; year++) {
+      //month
+      if (year >= DateTime.now().year) {
+        List<Holiday> list1 = NHolidayJp.getByMonth(year, 1);
+        List<Holiday> list2 = NHolidayJp.getByMonth(year, 2);
+        List<Holiday> list3 = NHolidayJp.getByMonth(year, 3);
+        List<Holiday> list4 = NHolidayJp.getByMonth(year, 4);
+        List<Holiday> list5 = NHolidayJp.getByMonth(year, 5);
+        List<Holiday> list6 = NHolidayJp.getByMonth(year, 6);
+        List<Holiday> list7 = NHolidayJp.getByMonth(year, 7);
+        List<Holiday> list8 = NHolidayJp.getByMonth(year, 8);
+        List<Holiday> list9 = NHolidayJp.getByMonth(year, 9);
+        List<Holiday> list10 = NHolidayJp.getByMonth(year, 10);
+        List<Holiday> list11 = NHolidayJp.getByMonth(year, 11);
+        List<Holiday> list12 = NHolidayJp.getByMonth(year, 12);
+
+        NotificationService().callScheduleMonth(list1.length, 1, year);
+        NotificationService().callScheduleMonth(list2.length, 2, year);
+        NotificationService().callScheduleMonth(list3.length, 3, year);
+        NotificationService().callScheduleMonth(list4.length, 4, year);
+        NotificationService().callScheduleMonth(list5.length, 5, year);
+        NotificationService().callScheduleMonth(list6.length, 6, year);
+        NotificationService().callScheduleMonth(list7.length, 7, year);
+        NotificationService().callScheduleMonth(list8.length, 8, year);
+        NotificationService().callScheduleMonth(list9.length, 9, year);
+        NotificationService().callScheduleMonth(list10.length, 10, year);
+        NotificationService().callScheduleMonth(list11.length, 11, year);
+        NotificationService().callScheduleMonth(list12.length, 12, year);
+      }
+
+      //month
+
       List<Holiday> list = NHolidayJp.getByYear(year);
       tmpArr.addAll(list.map((item) {
+        if (year >= DateTime.now().year) {
+          NotificationService().scheduleNotification(
+            "Calendar",
+            "You will have a day off ${item.name} after 3 days",
+            10,
+            0,
+            DateTime(
+              year,
+              item.month,
+              item.date,
+            ).subtract(const Duration(days: 3)),
+          );
+        }
+
         return Meeting(
           item.name,
           DateTime(year, item.month, item.date, 9, 0, 0),
