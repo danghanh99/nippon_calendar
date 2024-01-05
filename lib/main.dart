@@ -1,8 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:nippon_calendar/pages/my_home_page.dart';
+import 'package:nippon_calendar/flutter_fire_cli/firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging a = FirebaseMessaging.instance;
+  a.requestPermission();
+  var bn = await a.getToken();
+  print(bn);
   runApp(const MyApp());
 }
 

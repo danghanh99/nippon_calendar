@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1081250904004",
+    "project_id": "pushnotificationnipponcalendar",
+    "storage_bucket": "pushnotificationnipponcalendar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081250904004:android:7d9a12accf7718e741d691",
+        "android_client_info": {
+          "package_name": "com.example.nippon_calendar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9QHhIHu9GanbjCs8SjgKl-akK1acOANQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

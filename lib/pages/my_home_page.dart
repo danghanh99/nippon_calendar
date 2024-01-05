@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nholiday_jp/nholiday_jp.dart';
+import 'package:nippon_calendar/services/notification_service.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:intl/intl.dart';
 
@@ -15,30 +16,58 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<Meeting> meetings = [];
   CalendarController _calendarController = CalendarController();
+  final NotificationService _notificationService = NotificationService();
 
   @override
   void initState() {
     meetings = _getDataSource();
+    // _initNotifications();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: SfCalendar(
-        view: CalendarView.month,
-        maxDate: DateTime(2050, 12, 31, 0, 0, 0),
-        minDate: DateTime(2000, 01, 01, 0, 0, 0),
-        dataSource: MeetingDataSource(meetings),
-        controller: _calendarController,
-        showDatePickerButton: true,
-        monthViewSettings: const MonthViewSettings(
-          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-          showAgenda: true,
+        appBar: AppBar(
+          title: InkWell(
+            onTap: () {
+              _scheduleDailyNotification();
+            },
+            child: const Text("Calendar"),
+          ),
         ),
-      ),
-    ));
+        body: SafeArea(
+            child: SfCalendar(
+          view: CalendarView.month,
+          maxDate: DateTime(2050, 12, 31, 0, 0, 0),
+          minDate: DateTime(2000, 01, 01, 0, 0, 0),
+          dataSource: MeetingDataSource(meetings),
+          controller: _calendarController,
+          showDatePickerButton: true,
+          monthViewSettings: const MonthViewSettings(
+            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+            showAgenda: true,
+          ),
+          // viewHeaderStyle: ViewHeaderStyle(
+          //   backgroundColor: Colors
+          //       .blue.shade300, // Set background color for the entire header
+          //   dayTextStyle: TextStyle(color: Colors.white),
+          //   dateTextStyle: TextStyle(color: Colors.white),
+          // ),
+        )));
+  }
+
+  Future<void> _initNotifications() async {
+    await _notificationService.init();
+  }
+
+  void _scheduleDailyNotification() {
+    _notificationService.scheduleDailyNotification(
+      'Daily Notification',
+      'This is a scheduled daily notification.',
+      10,
+      0,
+    );
   }
 
   List<Meeting> _getDataSource() {
